@@ -7,13 +7,14 @@ import processing.opengl.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main extends PApplet {
 
     private PaletteCanvas pCanvas;
     float brushSize = 5;
 
-    ArrayList<Color> colorMap = new ArrayList<>();
+    ArrayList<Color> colorMap = new ArrayList<>(Arrays.asList(Color.BLACK, Color.CYAN));
 
     public void settings() {
         size(1280, 720);

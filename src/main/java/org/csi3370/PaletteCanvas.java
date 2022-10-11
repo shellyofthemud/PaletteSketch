@@ -7,6 +7,7 @@ import processing.core.PImage;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +15,8 @@ import static processing.core.PConstants.RGB;
 
 public class PaletteCanvas extends PGraphics {
 
-    private ArrayList<Color> colorMap = new ArrayList<Color>() ;
-    private int selectedColor = 0;
+    public ArrayList<Color> colorMap = new ArrayList<Color>(Arrays.asList(Color.BLACK, Color.CYAN));
+    private int selectedColor;
     private PGraphics pCanvas;
 
     public PaletteCanvas(PApplet parent) {
@@ -25,33 +26,30 @@ public class PaletteCanvas extends PGraphics {
        pCanvas.loadPixels();
 
        pCanvas.background(255, 255, 255);
-
-
-       createColor();
        setSelectedColor(1);
     }
 
     public int createColor() {
-        int colorIndex = colorMap.size() + 1;
-        colorMap.add(new Color(127, 127, 127));
-        return colorMap.size()-1;
+        Color c = new Color(127, 127, 127);
+        colorMap.add(c);
+        return colorMap.indexOf(c);
     }
 
     public int createColor(Color c) {
         colorMap.add(c);
-        return colorMap.size();
+        return colorMap.indexOf(c);
     }
 
     public int createColor(int colorValue) {
-        colorMap.add(new Color(colorValue));
-        return colorMap.size()-1;
+        Color c = new Color(colorValue);
+        colorMap.add(c);
+        return colorMap.indexOf(c);
     }
 
     public void setSelectedColor(int newColor) {
         selectedColor = newColor;
         pCanvas.fill(newColor);
         pCanvas.stroke(newColor);
-        System.out.printf("pcanvas selected color: %s", Integer.toHexString(pCanvas.fillColor));
     }
 
     public void setColor(int index, Color newColor) {
@@ -59,7 +57,6 @@ public class PaletteCanvas extends PGraphics {
     }
 
     public Color getColor(int index) {
-        // int colorHex = (c.getRed()*10000) + (c.getGreen()*100) + (c.getBlue());
         return colorMap.get(index-1);
     }
 
@@ -77,6 +74,7 @@ public class PaletteCanvas extends PGraphics {
             int p = pCanvas.pixels[i];
             if (p != 0) {
                 String colorHex = Integer.toHexString(p);
+                System.out.println(colorHex);
                 int colorIndex = Integer.parseInt(colorHex.substring(colorHex.length() - 2));
                 if (colorIndex != 0) {
                     output.set(i % pCanvas.width, i / pCanvas.width, getColor(colorIndex).hashCode());
