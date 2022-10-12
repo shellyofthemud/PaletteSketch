@@ -15,10 +15,12 @@ import static processing.core.PConstants.RGB;
 
 public class PaletteCanvas extends PGraphics {
 
-    public ArrayList<Color> colorMap = new ArrayList<Color>(Arrays.asList(Color.BLACK, Color.CYAN));
+    // TODO make colorMap its own class singleton
+    public ArrayList<Color> colorMap = new ArrayList<Color>(Arrays.asList(Color.GRAY, Color.BLACK));
     private int selectedColor;
     private PGraphics pCanvas;
 
+    // wrapper class for PGraphics
     public PaletteCanvas(PApplet parent) {
        pCanvas = parent.createGraphics(parent.width, parent.height);
        pCanvas.beginDraw();

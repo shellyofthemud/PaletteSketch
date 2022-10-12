@@ -5,6 +5,8 @@ import processing.core.PImage;
 
 public class UIComponent {
 
+    // TODO create individual components extended from this
+
     public int xPos;
     public int yPos;
     private PImage data;
