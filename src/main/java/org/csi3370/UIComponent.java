@@ -3,6 +3,7 @@ package org.csi3370;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+// Base class for UI elements
 public class UIComponent {
 
     // TODO create individual components extended from this
@@ -11,9 +12,27 @@ public class UIComponent {
     public int yPos;
     private PImage data;
 
+
+    public UIComponent() {
+        this.xPos = 0;
+        this.yPos = 0;
+        this.data = null;
+    }
     public UIComponent(int xPos, int yPos, PImage data) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.data = data;
+    }
+
+    public void setX(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setY(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public void setData(PImage data) {
         this.data = data;
     }
 
@@ -32,5 +51,11 @@ public class UIComponent {
             }
         }
         return false;
+    }
+
+    public PImage render() {
+        PImage output = Main.getImageSurface();
+
+        return output;
     }
 }

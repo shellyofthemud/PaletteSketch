@@ -1,8 +1,11 @@
 package org.csi3370;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import java.util.List;
+
+import static processing.core.PConstants.RGB;
 
 public class UIDisplay {
 
@@ -12,6 +15,7 @@ public class UIDisplay {
         // TODO render components
     }
 
+    // hook for passing
     public boolean handleMouseEvent(PApplet parent) {
         for (UIComponent c : components) {
             if (c.handleMouseEvent(parent)) {
@@ -19,5 +23,16 @@ public class UIDisplay {
             }
         }
         return false;
+    }
+
+    public PImage render() {
+        PApplet parent = Main.getAppInstance();
+        PImage output = parent.createImage(parent.width, parent.height, RGB);
+        for (UIComponent c : components) {
+            output.set(c.xPos, c.yPos, c.render());
+        }
+
+
+        return output;
     }
 }

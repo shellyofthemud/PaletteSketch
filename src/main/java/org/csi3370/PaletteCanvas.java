@@ -1,17 +1,12 @@
 package org.csi3370;
 
-import processing.awt.PGraphicsJava2D;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import static processing.core.PConstants.RGB;
 
 public class PaletteCanvas extends PGraphics {
 
@@ -70,6 +65,8 @@ public class PaletteCanvas extends PGraphics {
         return pCanvas;
     }
 
+    // the PGraphics object is treated as a map of color index pixels, [ 0, 0, 1, 2, 2 ];
+    // This function generates a PImage
     public PImage render() {
         PImage output = (PImage) pCanvas.copy();
         for (int i=0; i<pCanvas.pixels.length; i++) {

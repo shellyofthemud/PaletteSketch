@@ -3,13 +3,15 @@ package org.csi3370;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.*;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends PApplet {
+
+    private static Main _instance;
 
     private PaletteCanvas pCanvas;
     float brushSize = 5;
@@ -18,6 +20,7 @@ public class Main extends PApplet {
 
     public void settings() {
         size(1280, 720);
+        _instance = this;
     }
 
     public void draw() {
@@ -45,5 +48,21 @@ public class Main extends PApplet {
     public static void main(String[] args) {
         String[] appletArgs = new String[] { "org.csi3370.Main" };
         PApplet.main(appletArgs);
+    }
+
+    public static PApplet getAppInstance() {
+        return _instance;
+    }
+
+    public static PImage getImageSurface(int width, int height, int imageMode) {
+        return _instance.createImage(width, height, imageMode);
+    }
+
+    public static PImage getImageSurface() {
+        return getImageSurface(_instance.width, _instance.height, RGB);
+    }
+
+    public static ArrayList<Color> getColorMap() {
+        return _instance.colorMap;
     }
 }
