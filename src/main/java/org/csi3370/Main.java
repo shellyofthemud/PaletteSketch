@@ -41,7 +41,6 @@ public class Main extends PApplet {
             canvas.beginDraw();
             canvas.ellipse(mouseX, mouseY, brushSize, brushSize);
             canvas.endDraw();
-            System.out.printf("point at %d, %d\n", mouseX, mouseY);
         }
     }
 
@@ -62,7 +61,8 @@ public class Main extends PApplet {
         return getImageSurface(_instance.width, _instance.height, RGB);
     }
 
-    public static ArrayList<Color> getColorMap() {
-        return _instance.colorMap;
+    public static PaletteCanvas getCanvas() {
+        return _instance.pCanvas;
     }
+
 }

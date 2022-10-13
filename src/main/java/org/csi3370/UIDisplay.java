@@ -31,8 +31,6 @@ public class UIDisplay {
         for (UIComponent c : components) {
             output.set(c.xPos, c.yPos, c.render());
         }
-
-
         return output;
     }
 }
