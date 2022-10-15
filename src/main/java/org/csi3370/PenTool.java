@@ -25,6 +25,7 @@ public class PenTool {
         }
         if (e.type == MouseEvent.EventType.DRAG) {
             canvasRef.beginDraw();
+            canvasRef.noStroke();
             canvasRef.ellipse(e.mouseX, e.mouseY, pointSize, pointSize);
             canvasRef.endDraw();
         }
@@ -38,6 +39,5 @@ public class PenTool {
         penColor = c;
         canvasRef.fill(c.getRed(), c.getGreen(), c.getBlue());
         canvasRef.stroke(c.getRed(), c.getGreen(), c.getBlue());
-
     }
 }

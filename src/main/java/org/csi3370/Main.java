@@ -1,16 +1,16 @@
 package org.csi3370;
 
+import org.csi3370.ui.UIDisplay;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
+// TODO clean up the junk
 public class Main extends PApplet {
 
+    // class singleton
     private static Main _instance;
 
     private UIDisplay ui;
@@ -26,6 +26,8 @@ public class Main extends PApplet {
         _instance = this;
     }
 
+    // wait until everything is instantiated to start doing stuff
+    // render() generates a PImage for each frame of each component and stacks them onto main canvas
     public void draw() {
         background(255);
         if (pCanvas == null) {
@@ -52,6 +54,15 @@ public class Main extends PApplet {
     }
 
     @Override
+    public void mouseReleased() {
+        MouseEvent event = new MouseEvent(MouseEvent.EventType.RELEASE, mouseX, mouseY);
+        if (!ui.handleMouseEvent(event)) {
+            activeTool.handleMouseEvent(event);
+        }
+    }
+
+    // wait until canvas is initialized to init tool for canvas reference
+    @Override
     public void mousePressed() {
         MouseEvent event = new MouseEvent(MouseEvent.EventType.CLICK, mouseX, mouseY);
         if (activeTool == null) {
@@ -77,6 +88,7 @@ public class Main extends PApplet {
         activeTool.setPenColor(c);
     }
 
+    // convenience methods for passing/converting data
     public static PApplet getAppInstance() {
         return _instance;
     }
