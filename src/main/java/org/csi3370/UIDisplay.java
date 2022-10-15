@@ -3,22 +3,25 @@ package org.csi3370;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static processing.core.PConstants.RGB;
 
 public class UIDisplay {
 
-    private List<UIComponent> components;
+    private List<UIComponent> components = new ArrayList<>();
 
     public UIDisplay() {
-        // TODO render components
+        // TODO generate components
+        components.add(new PaletteListComponent());
+
     }
 
     // hook for passing
-    public boolean handleMouseEvent(PApplet parent) {
+    public boolean handleMouseEvent(MouseEvent e) {
         for (UIComponent c : components) {
-            if (c.handleMouseEvent(parent)) {
+            if (c.handleMouseEvent(e)) {
                 return true;
             }
         }
@@ -26,8 +29,7 @@ public class UIDisplay {
     }
 
     public PImage render() {
-        PApplet parent = Main.getAppInstance();
-        PImage output = parent.createImage(parent.width, parent.height, RGB);
+        PImage output = Main.getImageSurface();
         for (UIComponent c : components) {
             output.set(c.xPos, c.yPos, c.render());
         }

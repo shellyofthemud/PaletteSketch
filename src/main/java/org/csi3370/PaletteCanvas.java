@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PaletteCanvas extends PGraphics {
+public class PaletteCanvas {
 
     private PGraphics pCanvas;
 
@@ -35,9 +35,9 @@ public class PaletteCanvas extends PGraphics {
         for (int i=0; i<pCanvas.pixels.length; i++) {
             int p = pCanvas.pixels[i];
             if (p != 0) {
-                String colorHex = Integer.toHexString(p);
-                System.out.println(colorHex);
-                int colorIndex = Integer.parseInt(colorHex.substring(colorHex.length() - 2));
+                Color c = new Color(p);
+                // using blue for index bc i'm lazy and it's the smallest bits
+                int colorIndex = c.getBlue();
                 if (colorIndex != 0) {
                     output.set(i % pCanvas.width, i / pCanvas.width, ColorMap.get(colorIndex).hashCode());
                 }

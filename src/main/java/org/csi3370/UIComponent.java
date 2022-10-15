@@ -1,7 +1,11 @@
 package org.csi3370;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
+import processing.core.PGraphics;
 import processing.core.PImage;
+
+import static processing.core.PConstants.ARGB;
 
 // Base class for UI elements
 public class UIComponent {
@@ -10,7 +14,7 @@ public class UIComponent {
 
     public int xPos;
     public int yPos;
-    private PImage data;
+    PImage data;
 
 
     public UIComponent() {
@@ -18,6 +22,7 @@ public class UIComponent {
         this.yPos = 0;
         this.data = null;
     }
+
     public UIComponent(int xPos, int yPos, PImage data) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -40,22 +45,34 @@ public class UIComponent {
         return this.data;
     }
 
-    public boolean handleMouseEvent(PApplet parent) {
-        int mouseX = parent.mouseX;
-        int mouseY = parent.mouseY;
-        boolean mousePressed = parent.mousePressed;
-        if (data.pixels.length > 0) {
-            if (((mouseX > xPos) && (mouseX < xPos+data.width)) &&
-                    ((mouseY > yPos) && (mouseY < yPos+data.height))) {
-                return true;
-            }
+    public void setSize(int width, int height) {
+        data = Main.getImageSurface(width, height, ARGB);
+    }
+
+    public int getWidth() {
+        return this.data.width;
+    }
+
+    public int getHeight() {
+        return this.data.height;
+    }
+
+    public boolean handleMouseEvent(MouseEvent e) {
+        if (isInBounds(e.mouseX, e.mouseY)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isInBounds(int x, int y) {
+        if (((x > xPos) && (x < xPos+this.getWidth())) &&
+                ((y > yPos) && (y < yPos+this.getHeight()))) {
+            return true;
         }
         return false;
     }
 
     public PImage render() {
-        PImage output = Main.getImageSurface();
-
-        return output;
+        return Main.getImageSurface(0, 0, ARGB);
     }
 }
