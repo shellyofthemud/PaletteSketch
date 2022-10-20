@@ -1,27 +1,22 @@
 package org.csi3370;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
+import org.csi3370.tools.CanvasTool;
+import org.csi3370.ui.PaletteListDisplay;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PaletteCanvas extends JPanel {
 
     private int width;
     private int height;
     private BufferedImage canvas;
-
-    public PenTool activeTool;
+    private CanvasTool activeTool;
 
     public PaletteCanvas(int width, int height) {
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         setCanvasSize(width, height);
-        setActiveTool(new PenTool(canvas.getGraphics()));
     }
 
     private void setCanvasSize(int width, int height) {
@@ -48,7 +43,9 @@ public class PaletteCanvas extends JPanel {
         this.setBounds((windowWidth/2)-(width/2), yPos, width, height);
     }
 
-    public void setActiveTool(PenTool t) {
+    public void setActiveTool(CanvasTool t) {
+        removeMouseListener(this.activeTool);
+        removeMouseMotionListener(this.activeTool);
         this.activeTool = t;
         addMouseListener(t);
         addMouseMotionListener(t);

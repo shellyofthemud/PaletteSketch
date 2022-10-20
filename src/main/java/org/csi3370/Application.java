@@ -1,6 +1,10 @@
 package org.csi3370;
 
 
+import org.csi3370.tools.CanvasTool;
+import org.csi3370.ui.ColorChanger;
+import org.csi3370.ui.PaletteListDisplay;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -21,7 +25,7 @@ public class Application extends JFrame {
 
     private MouseHandler mh;
 
-    public PenTool activeTool;
+    public CanvasTool activeTool;
 
     private Application() {
         super("Palette Sketcher");
@@ -32,8 +36,9 @@ public class Application extends JFrame {
 
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         pCanvas = new PaletteCanvas(getWidth(), getHeight());
-        add(new PaletteListDisplay());
         add(pCanvas);
+        add(new PaletteListDisplay());
+        add(new ColorChanger());
 
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -43,7 +48,7 @@ public class Application extends JFrame {
             }
         });
 
-        activeTool = PenTool.getTool(pCanvas.getCanvasGraphics());
+        activeTool = CanvasTool.getTool();
 
         setVisible(true);
         setExtendedState(getExtendedState() | Frame.MAXIMIZED_BOTH);
@@ -57,10 +62,6 @@ public class Application extends JFrame {
         }
     }
 
-    private void initTool() {
-        activeTool = new PenTool(pCanvas.getGraphics());
-    }
-
     public static void main(String[] args) {
         String[] appletArgs = new String[] { "org.csi3370.Application" };
         // PApplet.main(appletArgs);
@@ -70,12 +71,16 @@ public class Application extends JFrame {
 
     public void setSelectedColor(Color c) {
         selectedColor = c;
-        activeTool.setColor(c);
+        activeTool.setToolColor(c);
     }
 
     // convenience methods for passing/converting data
     public static Application getAppInstance() {
         return _instance;
+    }
+
+    public static PaletteCanvas getInstanceCanvas() {
+        return _instance.pCanvas;
     }
 
     private class MouseHandler extends MouseAdapter {

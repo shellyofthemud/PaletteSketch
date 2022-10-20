@@ -1,5 +1,8 @@
 package org.csi3370;
 
+import org.csi3370.ui.ColorChanger;
+import org.csi3370.ui.PaletteListDisplay;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,18 +11,16 @@ public class ColorMap {
 
     // I'm sorry but I think this has to be treated as a 1-indexed list
 
-    private static ArrayList<Color> data = new ArrayList<>(Arrays.asList(Color.CYAN, Color.BLACK));
+    private static ArrayList<Color> data = new ArrayList<>(Arrays.asList(Color.CYAN, Color.RED));
     private static int selectedColor = 1;
 
-    public static void Set(int index, Color newColor) {
-        data.set(index-1, newColor);
-    }
-
-    // throw an error if called out of bounds
     public static void setSelectedColor(int newSelectedColor) {
+        // throw an error if called out of bounds
         selectedColor = data.indexOf(data.get(newSelectedColor-1))+1;
         Application.getAppInstance().setSelectedColor(new Color(selectedColor, selectedColor, selectedColor));
-
+        Color c = data.get(selectedColor-1);
+        ColorChanger.setValues(c.getRed(), c.getGreen(), c.getBlue());
+        PaletteListDisplay.refresh();
     }
 
     public static boolean contains(Color c) {
@@ -44,6 +45,12 @@ public class ColorMap {
 
     public static Color getSelectedIndexColor() { return new Color(selectedColor, selectedColor, selectedColor);}
 
+    public static void Set(int i, Color c) {
+        data.set(i-1, c);
+        PaletteListDisplay.refresh();
+        Application.getInstanceCanvas().repaint();
+    }
+
     // convenience method for getting single int as grayscale color
     public static Color getIndexColor(int index) {
         return new Color(index, index, index);
@@ -55,6 +62,8 @@ public class ColorMap {
 
     public static void add(Color c) {
         data.add(c);
+        PaletteListDisplay.refresh();
+        ColorChanger.update();
     }
 
     public static int size() {
