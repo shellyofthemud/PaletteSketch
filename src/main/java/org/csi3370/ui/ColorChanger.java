@@ -2,6 +2,7 @@ package org.csi3370.ui;
 
 import org.csi3370.Application;
 import org.csi3370.ColorMap;
+import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,7 +14,7 @@ public class ColorChanger extends JPanel {
 
     private static int margin = 10;
     private static ColorChanger _instance;
-    private enum Channel {
+    private static enum Channel {
         RED(1, 'R', Color.RED),
         GREEN(2, 'G', Color.GREEN),
         BLUE(3, 'B', Color.BLUE);
@@ -32,39 +33,29 @@ public class ColorChanger extends JPanel {
     private final int width = 600;
     private final int height = 210;
 
-    private int x;
-    private int y;
-
     private ArrayList<ColorSlider> sliders = new ArrayList<>();
 
-    public ColorChanger() {
+    private ColorChanger() {
         super();
+        setLayout(null);
         _instance = this;
-        setSize(width, height);
-        setBounds(getBounds());
         for (Channel c : Channel.values()) {
             ColorSlider cs = new ColorSlider(c);
+            sliders.add(cs);
             add(cs);
             add(cs.sliderLabel);
             add(cs.valDisplay);
         }
         repaint();
-        Color sc = ColorMap.getSelectedColor();
-        setValues(sc.getRed(), sc.getGreen(), sc.getBlue());
-        for (ColorSlider cs : sliders) {
-            cs.updateBounds();
-        }
     }
 
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
         setBorder(BorderFactory.createLineBorder(Color.black));
         setBounds(getBounds());
         for (ColorSlider cs : sliders) {
-            cs.updateBounds();
-        }
-        for (Component c : getComponents()) {
-            c.repaint();
+            cs.paint(g);
         }
     }
 
@@ -90,20 +81,32 @@ public class ColorChanger extends JPanel {
         }
     }
 
-    public static void update() {
-        for (ColorSlider cs : _instance.sliders) {
-            cs.updateBounds();
-        }
-        _instance.repaint();
-        Color sc = ColorMap.get
+    public static void setValues(Color c) {
+        int r = c.getRed();
+        int g = c.getGreen();
+        int b = c.getBlue();
+        setValues(r, g, b);
     }
 
-    private class ColorSlider extends JSlider implements ChangeListener {
+    public static void update() {
+        setValues(ColorMap.getSelectedColor());
+        _instance.repaint();
+    }
+
+    public static ColorChanger getInstance() {
+        if (_instance == null) {
+            return new ColorChanger();
+        } else {
+            return _instance;
+        }
+    }
+
+    private static class ColorSlider extends JSlider implements ChangeListener {
 
         private Channel channel;
 
         private int width;
-        private int height;
+        private static int height;
 
         private JLabel sliderLabel;
         private JLabel valDisplay;
@@ -113,7 +116,6 @@ public class ColorChanger extends JPanel {
             channel = c;
             addChangeListener(this);
             sliderLabel = new JLabel(String.valueOf(c.asChar), CENTER) {
-                @Override
                 public void paint(Graphics g) {
                     g.setColor(getBackground());
                     g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -122,26 +124,13 @@ public class ColorChanger extends JPanel {
             };
             sliderLabel.setBackground(c.asColor);
             sliderLabel.setForeground(Color.white);
+            sliderLabel.setLabelFor(this);
 
             valDisplay = new JLabel();
-            updateBounds();
-        }
+            valDisplay.setLabelFor(this);
 
-        public void updateSize() {
-            this.height = _instance.height/Channel.values().length;
-            this.width = (int) ((_instance.width)*.6);
-            setSize(width, height);
-            valDisplay.setSize((int) ((_instance.width)*.2), height);
-            sliderLabel.setSize((int) ((_instance.width)*.2), height);
-        }
 
-        public void updateBounds() {
-            updateSize();
-            // doing these in the order they'll appear in
-            int y = height*(channel.value-1);
-            sliderLabel.setBounds(0, y, sliderLabel.getWidth(), sliderLabel.getHeight());
-            this.setBounds(sliderLabel.getWidth(), y, this.width, this.height);
-            valDisplay.setBounds(sliderLabel.getWidth()+this.getWidth(), y, valDisplay.getWidth(), valDisplay.getHeight());
+            repaint();
         }
 
         @Override
@@ -150,9 +139,27 @@ public class ColorChanger extends JPanel {
             valDisplay.setText(String.valueOf(value));
         }
 
+
+        @Override
         public void paint(Graphics g) {
-            super.paint(g);
-            setBorder(BorderFactory.createLineBorder(Color.black));
+           super.paint(g);
+           setBorder(BorderFactory.createLineBorder(Color.black));
+           // label
+           int width = (int) ((getParent().getWidth()/5));
+           int height = getParent().getHeight()/Channel.values().length;
+           int x = 0;
+           int y = (getParent().getHeight()/Channel.values().length)*(channel.value-1);
+           sliderLabel.setBounds(x, y, width, height);
+
+           // ColorSlider
+           x = (int) (getParent().getWidth()/5.0);
+           width = (int) ((getParent().getWidth()/5)*3);
+           setBounds(x, y, width, height);
+
+            // value display
+            x = (int) ((getParent().getWidth()/5.0)*4);
+            width = (int) ((getParent().getWidth()/5));
+            valDisplay.setBounds(x, y, width, height);
         }
 
         public Channel getChannel() {
@@ -187,8 +194,7 @@ public class ColorChanger extends JPanel {
                 }
             }
             valDisplay.setText(String.valueOf(getValue()));
-            ColorMap.Set(ColorMap.getSelectedColorIndex(), new Color(r, g, b));
-            Application.getInstanceCanvas().repaint();
+            ColorMap.set(ColorMap.getSelectedColorIndex(), new Color(r, g, b));
         }
     }
 }

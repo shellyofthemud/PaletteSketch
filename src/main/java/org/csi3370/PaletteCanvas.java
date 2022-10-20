@@ -19,6 +19,10 @@ public class PaletteCanvas extends JPanel {
         setCanvasSize(width, height);
     }
 
+    public PaletteCanvas() {
+        this(1280, 720);
+    }
+
     private void setCanvasSize(int width, int height) {
         BufferedImage newCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         if (canvas != null) {
@@ -35,6 +39,7 @@ public class PaletteCanvas extends JPanel {
         return canvas.getGraphics();
     }
 
+    @Override
     public void paint(Graphics g) {
         super.paintComponent(g);
         g.drawImage(render(), 0, 0, width, height, Color.WHITE, this);

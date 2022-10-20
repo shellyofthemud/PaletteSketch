@@ -15,7 +15,7 @@ public class PaletteListDisplay extends JPanel {
 
     private static PaletteListDisplay _instance;
 
-    public PaletteListDisplay() {
+    private PaletteListDisplay() {
         super();
         _instance = this;
         for (JPanel p : getButtons()) {
@@ -98,6 +98,14 @@ public class PaletteListDisplay extends JPanel {
             }
         }
         _instance.repaint();
+    }
+
+    public static PaletteListDisplay getInstance() {
+        if (_instance == null) {
+            return new PaletteListDisplay();
+        } else {
+            return _instance;
+        }
     }
 
     public static Dimension getInstanceSize() {

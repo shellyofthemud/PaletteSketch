@@ -11,15 +11,15 @@ public class ColorMap {
 
     // I'm sorry but I think this has to be treated as a 1-indexed list
 
+    // instance data
     private static ArrayList<Color> data = new ArrayList<>(Arrays.asList(Color.CYAN, Color.RED));
     private static int selectedColor = 1;
 
     public static void setSelectedColor(int newSelectedColor) {
         // throw an error if called out of bounds
         selectedColor = data.indexOf(data.get(newSelectedColor-1))+1;
-        Application.getAppInstance().setSelectedColor(new Color(selectedColor, selectedColor, selectedColor));
-        Color c = data.get(selectedColor-1);
-        ColorChanger.setValues(c.getRed(), c.getGreen(), c.getBlue());
+        Application.setActiveToolColor(getSelectedIndexColor());
+        ColorChanger.update();
         PaletteListDisplay.refresh();
     }
 
@@ -35,29 +35,23 @@ public class ColorMap {
         return data.get(index-1);
     }
 
+    // returns translated Color of selected color
     public static Color getSelectedColor() {
         return data.get(selectedColor-1);
     }
 
+    // returns integer index of selected color
     public static int getSelectedColorIndex() {
         return selectedColor;
     }
 
+    // returns integer index of selected color in the format of a grayscale color
     public static Color getSelectedIndexColor() { return new Color(selectedColor, selectedColor, selectedColor);}
 
-    public static void Set(int i, Color c) {
+    public static void set(int i, Color c) {
         data.set(i-1, c);
-        PaletteListDisplay.refresh();
+        PaletteListDisplay.getInstance().getComponent(selectedColor-1).repaint();
         Application.getInstanceCanvas().repaint();
-    }
-
-    // convenience method for getting single int as grayscale color
-    public static Color getIndexColor(int index) {
-        return new Color(index, index, index);
-    }
-
-    public static int colorAsRGBInt(Color c) {
-        return Integer.decode(Integer.toHexString(c.hashCode()));
     }
 
     public static void add(Color c) {

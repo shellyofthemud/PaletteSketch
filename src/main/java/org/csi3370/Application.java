@@ -18,33 +18,27 @@ public class Application extends JFrame {
     // class singleton
     private static Application _instance;
 
-    private PaletteCanvas pCanvas;
-    float brushSize = 5;
-
-    public static Color selectedColor;
-
-    private MouseHandler mh;
+    private PaletteCanvas pCanvas = new PaletteCanvas();
 
     public CanvasTool activeTool;
 
     private Application() {
         super("Palette Sketcher");
-        setSize(1280, 720);
         _instance = this;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-        pCanvas = new PaletteCanvas(getWidth(), getHeight());
         add(pCanvas);
-        add(new PaletteListDisplay());
-        add(new ColorChanger());
+        add(PaletteListDisplay.getInstance());
+        add(ColorChanger.getInstance());
 
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
                 Application.getAppInstance().repaint();
+                ColorChanger.update();
             }
         });
 
@@ -69,11 +63,9 @@ public class Application extends JFrame {
         app.setVisible(true);
     }
 
-    public void setSelectedColor(Color c) {
-        selectedColor = c;
-        activeTool.setToolColor(c);
+    public static void setActiveToolColor(Color c) {
+        _instance.activeTool.setToolColor(c);
     }
-
     // convenience methods for passing/converting data
     public static Application getAppInstance() {
         return _instance;
