@@ -24,6 +24,6 @@ public class PenTool extends CanvasTool {
         super.getCanvasRef().drawLine(lastX, lastY, e.getX(), e.getY());
         lastX = e.getX();
         lastY = e.getY();
-        Application.getInstanceCanvas().repaint();
+        Application.getInstanceCanvas().paint();
     }
 }

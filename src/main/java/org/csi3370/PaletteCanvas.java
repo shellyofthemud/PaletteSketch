@@ -2,6 +2,7 @@ package org.csi3370;
 
 import org.csi3370.tools.CanvasTool;
 import org.csi3370.ui.PaletteListDisplay;
+import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,6 @@ public class PaletteCanvas extends JPanel {
         this.setPreferredSize(new Dimension(width, height));
         this.width = width;
         this.height = height;
-
     }
 
     public Graphics getCanvasGraphics() {
@@ -41,11 +41,22 @@ public class PaletteCanvas extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-        super.paintComponent(g);
+        // super.paint(g);
+        setBounds(getBounds());
         g.drawImage(render(), 0, 0, width, height, Color.WHITE, this);
-        int windowWidth = Application.getAppInstance().getContentPane().getWidth();
-        int yPos = PaletteListDisplay.getInstanceSize().height+10;
-        this.setBounds((windowWidth/2)-(width/2), yPos, width, height);
+    }
+
+    public void paint() {
+        paint(getGraphics());
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+        int x = (Application.getAppInstance().getContentPane().getWidth()/2)-(width/2);
+        int y = PaletteListDisplay.getInstance().getBounds().height+20;
+        return new Rectangle(x, y, width, height);
     }
 
     public void setActiveTool(CanvasTool t) {

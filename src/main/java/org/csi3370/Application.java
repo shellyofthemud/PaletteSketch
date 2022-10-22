@@ -28,7 +28,7 @@ public class Application extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        setLayout(null);
         add(pCanvas);
         add(PaletteListDisplay.getInstance());
         add(ColorChanger.getInstance());
@@ -54,6 +54,7 @@ public class Application extends JFrame {
         for (Component c : this.getContentPane().getComponents()) {
             c.repaint();
         }
+
     }
 
     public static void main(String[] args) {

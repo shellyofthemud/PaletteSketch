@@ -15,30 +15,40 @@ public class PaletteListDisplay extends JPanel {
 
     private static PaletteListDisplay _instance;
 
+    private final int height = 100;
+
     private PaletteListDisplay() {
         super();
         _instance = this;
         for (JPanel p : getButtons()) {
             add(p);
         }
+        setBounds(getBounds());
         repaint();
     }
 
+    @Override
     public void paint(Graphics g) {
-        super.paint(g);
-        setBorder(BorderFactory.createEmptyBorder());
+        // super.paint(g);
+        setBorder(BorderFactory.createLineBorder(Color.black));
         setBackground(Color.WHITE);
+        setBounds(getBounds());
+        List<Component> components = List.of(getComponents());
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
-        setSize();
-        Dimension windowSize = Application.getAppInstance().getContentPane().getSize();
-        this.setBounds(new Rectangle((windowSize.width/2)-(getWidth()/2), 0, ColorButton.size*(this.getComponents().length), ColorButton.size));
-
-        List<Component> components = List.of(getComponents());
+        paintChildren(g);
         for (Component c : components) {
             c.setBounds((ColorButton.size)*(components.indexOf(c)), 0, ColorButton.size, ColorButton.size);
             c.repaint();
         }
+    }
+
+
+    @Override
+    public Rectangle getBounds() {
+        int x = (Application.getAppInstance().getContentPane().getWidth()/2)-(getWidth()/2);
+        int width = ColorButton.size*(this.getComponents().length);
+        return new Rectangle(x, 10, width, ColorButton.size);
     }
 
     private void setSize() {
@@ -134,6 +144,7 @@ public class PaletteListDisplay extends JPanel {
             return (int) (size*.85);
         }
 
+        @Override
         public void paint(Graphics g) {
             setSize(getBoxSize(), getBoxSize());
             g.setColor(Color.WHITE);

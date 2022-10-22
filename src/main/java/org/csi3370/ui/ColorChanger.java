@@ -9,11 +9,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static javax.swing.SwingConstants.*;
 
 public class ColorChanger extends JPanel {
 
     private static int margin = 10;
     private static ColorChanger _instance;
+
     private static enum Channel {
         RED(1, 'R', Color.RED),
         GREEN(2, 'G', Color.GREEN),
@@ -33,52 +37,100 @@ public class ColorChanger extends JPanel {
     private final int width = 600;
     private final int height = 210;
 
-    private ArrayList<ColorSlider> sliders = new ArrayList<>();
+    private HashMap<Channel, JSlider> sliders = new HashMap<>();
 
     private ColorChanger() {
         super();
-        setLayout(null);
         _instance = this;
+        setLayout(new BoxLayout(this, VERTICAL));
+        setSize(new Dimension(600, 200));
         for (Channel c : Channel.values()) {
-            ColorSlider cs = new ColorSlider(c);
-            sliders.add(cs);
-            add(cs);
-            add(cs.sliderLabel);
-            add(cs.valDisplay);
+            Rectangle bounds = new Rectangle();
+
+            JLabel valDisplay = new JLabel("", CENTER);
+
+            JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 127) {
+
+                public final Channel channel = c;
+
+                @Override
+                public void setValue(int value) {
+                    super.setValue(value);
+                    valDisplay.setText(String.valueOf(value));
+                }
+            };
+            sliders.put(c, slider);
+
+
+            JLabel sliderLabel = new JLabel(String.valueOf(c.asChar), CENTER) {
+                public void paint(Graphics g) {
+                    g.setColor(getBackground());
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    super.paint(g);
+                }
+            };
+            JPanel container = new JPanel();
+            container.add(sliderLabel);
+            container.add(slider);
+            container.add(valDisplay);
+            add(container);
+
+            valDisplay.setLabelFor(slider);
+
+            sliderLabel.setBackground(c.asColor);
+            sliderLabel.setForeground(Color.white);
+            sliderLabel.setLabelFor(slider);
+
+            slider.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    valDisplay.setText(String.valueOf(slider.getValue()));
+
+                    ColorMap.set(ColorMap.getSelectedColorIndex(), new Color(
+                            sliders.get(Channel.RED).getValue(),
+                            sliders.get(Channel.GREEN).getValue(),
+                            sliders.get(Channel.BLUE).getValue()));
+                }
+            });
+
+            setBorder(BorderFactory.createLineBorder(Color.black));
+            // label
+            bounds.width = width / 5;
+            bounds.height = height / Channel.values().length;
+            bounds.x = 0;
+            bounds.y = (bounds.height) * (c.value - 1);
+            sliderLabel.setBounds(bounds);
+
+            // ColorSlider
+            bounds.x = bounds.width;
+            bounds.width = (int) ((3.0 / 5.0) * width);
+            slider.setSize(bounds.width, bounds.height);
+
+            // value display
+            bounds.x = (int) ((4.0/5.0)*width);
+            bounds.width = width / 5;
+            valDisplay.setSize(bounds.width, bounds.height);
         }
+
         repaint();
     }
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
-        setBorder(BorderFactory.createLineBorder(Color.black));
+        paintChildren(g);
         setBounds(getBounds());
-        for (ColorSlider cs : sliders) {
-            cs.paint(g);
-        }
     }
 
     public Rectangle getBounds() {
-        int x = Application.getAppInstance().getContentPane().getWidth()-getWidth()-margin;
-        int y = Application.getAppInstance().getContentPane().getHeight()-getHeight()-margin;
+        int x = Application.getAppInstance().getWidth() - (width+10);
+        int y = Application.getAppInstance().getHeight() - (height+10);
         return new Rectangle(x, y, width, height);
     }
 
     public static void setValues(int r, int g, int b) {
-        for (ColorSlider s : _instance.sliders) {
-            switch (s.getChannel()) {
-                case RED -> {
-                    s.setValue(r);
-                }
-                case GREEN -> {
-                    s.setValue(g);
-                }
-                case BLUE -> {
-                    s.setValue(b);
-                }
-            }
-        }
+        _instance.sliders.get(Channel.RED).setValue(r);
+        _instance.sliders.get(Channel.GREEN).setValue(g);
+        _instance.sliders.get(Channel.BLUE).setValue(b);
     }
 
     public static void setValues(Color c) {
@@ -95,106 +147,8 @@ public class ColorChanger extends JPanel {
 
     public static ColorChanger getInstance() {
         if (_instance == null) {
-            return new ColorChanger();
-        } else {
-            return _instance;
+            _instance = new ColorChanger();
         }
-    }
-
-    private static class ColorSlider extends JSlider implements ChangeListener {
-
-        private Channel channel;
-
-        private int width;
-        private static int height;
-
-        private JLabel sliderLabel;
-        private JLabel valDisplay;
-
-        public ColorSlider(Channel c) {
-            super(SwingConstants.HORIZONTAL, 0, 255, 127);
-            channel = c;
-            addChangeListener(this);
-            sliderLabel = new JLabel(String.valueOf(c.asChar), CENTER) {
-                public void paint(Graphics g) {
-                    g.setColor(getBackground());
-                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                    super.paint(g);
-                }
-            };
-            sliderLabel.setBackground(c.asColor);
-            sliderLabel.setForeground(Color.white);
-            sliderLabel.setLabelFor(this);
-
-            valDisplay = new JLabel();
-            valDisplay.setLabelFor(this);
-
-
-            repaint();
-        }
-
-        @Override
-        public void setValue(int value) {
-            super.setValue(value);
-            valDisplay.setText(String.valueOf(value));
-        }
-
-
-        @Override
-        public void paint(Graphics g) {
-           super.paint(g);
-           setBorder(BorderFactory.createLineBorder(Color.black));
-           // label
-           int width = (int) ((getParent().getWidth()/5));
-           int height = getParent().getHeight()/Channel.values().length;
-           int x = 0;
-           int y = (getParent().getHeight()/Channel.values().length)*(channel.value-1);
-           sliderLabel.setBounds(x, y, width, height);
-
-           // ColorSlider
-           x = (int) (getParent().getWidth()/5.0);
-           width = (int) ((getParent().getWidth()/5)*3);
-           setBounds(x, y, width, height);
-
-            // value display
-            x = (int) ((getParent().getWidth()/5.0)*4);
-            width = (int) ((getParent().getWidth()/5));
-            valDisplay.setBounds(x, y, width, height);
-        }
-
-        public Channel getChannel() {
-            return this.channel;
-        }
-
-        public JLabel getSliderLabel() {
-            return sliderLabel;
-        }
-
-        public JLabel getValDisplay() {
-            return valDisplay;
-        }
-
-
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            int cv = this.getValue();
-            Color c = ColorMap.getSelectedColor();
-            int r = c.getRed();
-            int g = c.getGreen();
-            int b = c.getBlue();
-            switch (channel) {
-                case RED -> {
-                    r = getValue();
-                }
-                case GREEN -> {
-                    g = getValue();
-                }
-                case BLUE -> {
-                    b = getValue();
-                }
-            }
-            valDisplay.setText(String.valueOf(getValue()));
-            ColorMap.set(ColorMap.getSelectedColorIndex(), new Color(r, g, b));
-        }
+        return _instance;
     }
 }
