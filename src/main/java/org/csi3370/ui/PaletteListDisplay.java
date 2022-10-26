@@ -35,11 +35,6 @@ public class PaletteListDisplay extends JPanel {
         // super.paint(g);
         setBorder(BorderFactory.createLineBorder(Color.black));
         paintBorder(g);
-        List<Component> components = List.of(getComponents());
-        // for (Component c : components) {
-        //     c.setBounds((ColorButton.size)*(components.indexOf(c)), 0, ColorButton.size, ColorButton.size);
-        //     c.repaint();
-        // }
     }
 
 

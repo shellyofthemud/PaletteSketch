@@ -44,12 +44,12 @@ public class ColorChanger extends JPanel {
         _instance = this;
         setLayout(new BoxLayout(this, VERTICAL));
         setSize(new Dimension(600, 200));
-        for (Channel c : Channel.values()) {
+        for (final Channel c : Channel.values()) {
             Rectangle bounds = new Rectangle();
 
-            JLabel valDisplay = new JLabel("", CENTER);
+            final JLabel valDisplay = new JLabel("", CENTER);
 
-            JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 127) {
+            final JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 127) {
 
                 public final Channel channel = c;
 
