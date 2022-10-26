@@ -20,7 +20,7 @@ public class ColorMap {
         selectedColor = data.indexOf(data.get(newSelectedColor-1))+1;
         Application.setActiveToolColor(getSelectedIndexColor());
         ColorChanger.update();
-        PaletteListDisplay.refresh();
+        PaletteListDisplay.update();
     }
 
     public static boolean contains(Color c) {

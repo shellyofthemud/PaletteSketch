@@ -46,6 +46,9 @@ public class Application extends JFrame {
 
         setVisible(true);
         setExtendedState(getExtendedState() | Frame.MAXIMIZED_BOTH);
+        for (Component c : getComponents()) {
+            c.setVisible(true);
+        }
     }
 
     public void paint(Graphics g) {

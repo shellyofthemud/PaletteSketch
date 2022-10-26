@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,18 +30,16 @@ public class PaletteListDisplay extends JPanel {
 
     @Override
     public void paint(Graphics g) {
+        setBounds(getBounds());
+        paintChildren(g);
         // super.paint(g);
         setBorder(BorderFactory.createLineBorder(Color.black));
-        setBackground(Color.WHITE);
-        setBounds(getBounds());
+        paintBorder(g);
         List<Component> components = List.of(getComponents());
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        paintChildren(g);
-        for (Component c : components) {
-            c.setBounds((ColorButton.size)*(components.indexOf(c)), 0, ColorButton.size, ColorButton.size);
-            c.repaint();
-        }
+        // for (Component c : components) {
+        //     c.setBounds((ColorButton.size)*(components.indexOf(c)), 0, ColorButton.size, ColorButton.size);
+        //     c.repaint();
+        // }
     }
 
 
@@ -71,16 +70,16 @@ public class PaletteListDisplay extends JPanel {
 
             @Override
             public void paint(Graphics g) {
-                super.paint(g);
+                setBounds(new Rectangle(_instance.getWidth()-ColorButton.size, 0, ColorButton.size, ColorButton.size));
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 g.setColor(Color.black);
                 setSize(ColorButton.getBoxSize(), ColorButton.getBoxSize());
-                g.drawOval(0, 0, ColorButton.getContentSize(), ColorButton.getContentSize());
+                g.drawOval(ColorButton.getMargin(), ColorButton.getMargin(), ColorButton.getContentSize(), ColorButton.getContentSize());
                 int fontSize = 30;
                 g.setFont(new Font(getFont().getFamily(), Font.BOLD, fontSize));
-                int x = (this.getWidth()/2)-15;
-                int y = (this.getHeight()/2)+6;
+                int x = (this.getWidth()/2)-7;
+                int y = (this.getHeight()/2)+10;
                 g.drawChars(new char[] {'+'}, 0, 1, x, y);
             }
         };
@@ -108,6 +107,11 @@ public class PaletteListDisplay extends JPanel {
             }
         }
         _instance.repaint();
+        _instance.paintChildren(_instance.getGraphics());
+    }
+
+    public static void update() {
+        _instance.paintChildren(_instance.getGraphics());
     }
 
     public static PaletteListDisplay getInstance() {
@@ -144,13 +148,17 @@ public class PaletteListDisplay extends JPanel {
             return (int) (size*.85);
         }
 
+        public static int getMargin() {
+            return (int) (size*.075);
+        }
+
         @Override
         public void paint(Graphics g) {
-            setSize(getBoxSize(), getBoxSize());
+            setBounds(getBounds());
             g.setColor(Color.WHITE);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(ColorMap.get(colorIndex));
-            g.fillOval(0, 0, getContentSize(), getContentSize());
+            g.fillOval(getMargin(), getMargin(), getContentSize(), getContentSize());
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(2));
             if (colorIndex == ColorMap.getSelectedColorIndex()) {
@@ -158,7 +166,11 @@ public class PaletteListDisplay extends JPanel {
             } else {
                 g2.setColor(Color.WHITE);
             }
-            g2.drawOval(0, 0, getContentSize(), getContentSize());
+            g2.drawOval(getMargin(), getMargin(), getContentSize(), getContentSize());
+        }
+
+        public Rectangle getBounds() {
+            return new Rectangle(size*(colorIndex-1), 0, size, size);
         }
 
         @Override
