@@ -2,7 +2,6 @@ package org.csi3370.ui;
 
 import org.csi3370.Application;
 import org.csi3370.ColorMap;
-import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

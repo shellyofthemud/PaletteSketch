@@ -2,7 +2,6 @@ package org.csi3370;
 
 import org.csi3370.tools.CanvasTool;
 import org.csi3370.ui.PaletteListDisplay;
-import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import java.awt.*;
