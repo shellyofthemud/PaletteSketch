@@ -12,7 +12,7 @@ public class PSketchApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(PSketchApp.class.getResource("layout.fxml"));
         Scene scene = new Scene((Parent) fxmlLoader.load());
         stage.setScene(scene);
-        // stage.setOnShowing(e-> ((PSketchController) fxmlLoader.getController()).initPCanvas());
+        stage.setOnShowing(e-> ((PSketchController) fxmlLoader.getController()).initPCanvas());
         stage.show();
     }
 
