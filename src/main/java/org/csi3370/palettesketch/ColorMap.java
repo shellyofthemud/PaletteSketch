@@ -59,6 +59,14 @@ public class ColorMap {
         selectColor(new java.awt.Color(i, i, i));
     }
 
+    public static boolean isSelected(Color c) {
+        return (c.equals(selectedColor));
+    }
+
+    public static boolean isSelected(int index) {
+        return ((new java.awt.Color(index, index, index)).equals(selectedColor));
+    }
+
     public static int size() {
         return data.size();
     }

@@ -39,6 +39,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -87,7 +88,7 @@
          <center>
             <StackPane fx:id="paletteCanvasContainer" onMouseDragged="#onMouseDraggedCanvas" onMousePressed="#onMouseClickedCanvas" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fx:id="paletteCanvasView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="paletteCanvasView" fitHeight="720.0" fitWidth="1280.0" onMouseDragged="#onMouseDraggedCanvas" pickOnBounds="true" preserveRatio="true" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -97,6 +98,9 @@
                </BorderPane.margin>
             </StackPane>
          </center>
+         <top>
+            <HBox fx:id="paletteListDisplayContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
       </BorderPane>
   </children>
 </VBox>
