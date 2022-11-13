@@ -4,11 +4,13 @@ package org.csi3370.palettesketch.tools;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.*;
+
 public abstract class CanvasTool {
 
     private static CanvasTool activeTool;
 
-    static GraphicsContext graphicsReference;
+    static Graphics2D graphicsReference;
 
     static {
         activeTool = new PenTool();
@@ -18,11 +20,11 @@ public abstract class CanvasTool {
         return activeTool;
     }
 
-    public static void setGraphicsReference(GraphicsContext g) {
+    public static void setGraphicsReference(Graphics2D g) {
         graphicsReference = g;
     }
 
-    GraphicsContext getGraphics() {
+    Graphics2D getGraphics() {
         return graphicsReference;
     }
 

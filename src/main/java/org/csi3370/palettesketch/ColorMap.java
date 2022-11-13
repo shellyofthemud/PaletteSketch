@@ -25,14 +25,26 @@ public class ColorMap {
         data.put(new java.awt.Color(gsIndex, gsIndex, gsIndex), c);
     }
 
+    public static java.awt.Color get(java.awt.Color c) {
+        return data.get(c);
+    }
+
     public static Color AWTColorToFXColor(java.awt.Color c) {
         return Color.rgb(c.getRed(), c.getGreen(), c.getBlue());
     }
 
     // returns translated Color of selected color
-    public static Color getSelectedColor() {
-        // return data.get(selectedColor-1);
-        return null;
+    public static java.awt.Color getSelectedColor() {
+        return selectedColor;
+    }
+
+
+    public static void selectColor(java.awt.Color c) {
+        if (data.containsKey(c)) {
+            selectedColor = c;
+        } else {
+            System.out.printf("Failed to set active color %s\n", c.toString());
+        }
     }
 
     public static int size() {

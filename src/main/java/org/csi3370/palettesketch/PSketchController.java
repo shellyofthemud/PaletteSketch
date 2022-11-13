@@ -21,8 +21,8 @@ public class PSketchController {
     private PaletteCanvasController pCanvas;
 
     public void initPCanvas() {
-        // pCanvas = new PaletteCanvasController(paletteCanvas);
-        // CanvasTool.setGraphicsReference(pCanvas.getGraphics());
+        pCanvas = new PaletteCanvasController(paletteCanvasView);
+        CanvasTool.setGraphicsReference(pCanvas.getGraphics());
     }
 
     @FXML
