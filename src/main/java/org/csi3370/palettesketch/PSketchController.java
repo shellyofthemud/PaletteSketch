@@ -13,9 +13,6 @@ public class PSketchController {
     private StackPane paletteCanvasContainer;
 
     @FXML
-    private Canvas paletteCanvas;
-
-    @FXML
     private ImageView paletteCanvasView;
 
     private PaletteCanvasController pCanvas;
@@ -37,7 +34,7 @@ public class PSketchController {
     @FXML
     private void onMouseDraggedCanvas(MouseEvent e) {
         CanvasTool.getActiveTool().onMouseDrag(e);
-        pCanvas.render(paletteCanvasView);
+        pCanvas.render();
     }
 
     @FXML

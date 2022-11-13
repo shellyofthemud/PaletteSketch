@@ -16,8 +16,9 @@ public class ColorMap {
 
     // class init block
     static {
-        add(java.awt.Color.PINK);
         add(java.awt.Color.CYAN);
+        add(java.awt.Color.PINK);
+        selectColor(1);
     }
 
     private static void add(java.awt.Color c) {
@@ -26,7 +27,14 @@ public class ColorMap {
     }
 
     public static java.awt.Color get(java.awt.Color c) {
-        return data.get(c);
+        if (c.hashCode() == java.awt.Color.BLACK.hashCode()) {
+            return java.awt.Color.WHITE;
+        }
+        return data.getOrDefault(c, c);
+    }
+
+    public static java.awt.Color get(int c) {
+        return get(new java.awt.Color(c, c, c));
     }
 
     public static Color AWTColorToFXColor(java.awt.Color c) {
@@ -45,6 +53,10 @@ public class ColorMap {
         } else {
             System.out.printf("Failed to set active color %s\n", c.toString());
         }
+    }
+
+    public static void selectColor(int i) {
+        selectColor(new java.awt.Color(i, i, i));
     }
 
     public static int size() {

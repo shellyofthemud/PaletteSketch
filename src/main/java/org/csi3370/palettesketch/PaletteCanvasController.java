@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
 import org.csi3370.palettesketch.tools.CanvasTool;
 
 import java.awt.*;
@@ -26,38 +25,20 @@ public class PaletteCanvasController {
         CanvasTool.setGraphicsReference(pImage.createGraphics());
     }
 
-
-    private static Image BufferedImageToFXImage(BufferedImage b) {
-        WritableImage out = new WritableImage(b.getWidth(), b.getHeight());
+    void render() {
+        WritableImage out = new WritableImage(pImage.getWidth(), pImage.getHeight());
         PixelWriter pw = out.getPixelWriter();
-        for (int y=0; y<b.getHeight(); y++) {
-            for (int x=0; x<b.getWidth(); x++) {
-                Color p = ColorMap.AWTColorToFXColor(new java.awt.Color(b.getRGB(x, y)));
-                pw.setArgb(x, y, p.hashCode());
+        for (int y=0; y<pImage.getHeight(); y++) {
+            for (int x=0; x<pImage.getWidth(); x++) {
+                int pVal = pImage.getRGB(x, y);
+                Color oc = ColorMap.get(new java.awt.Color(pImage.getRGB(x, y)));
+                pw.setArgb(x, y, oc.getRGB());
             }
         }
-        return out;
+        renderTarget.setImage(new ImageView(out).getImage());
     }
 
     public Graphics2D getGraphics() {
         return pImage.createGraphics();
-    }
-
-    public void render(ImageView target) {
-        target.setImage(BufferedImageToFXImage(pImage));
-        // pImage.snapshot((res) -> {
-        //     PixelWriter pw = res.getImage().getPixelWriter();
-        //     PixelReader pr = res.getImage().getPixelReader();
-        //     for (int y=0; y<res.getImage().getHeight(); y++) {
-        //         for (int x=0; x<res.getImage().getWidth(); x++) {
-        //             Color c = pr.getColor(x, y);
-        //             if ( c.hashCode() != Color.WHITE.hashCode() ) {
-        //                 pw.setArgb(x, y, ColorMap.get(c).hashCode());
-        //             }
-        //         }
-        //     }
-        //     return null;
-        // }, null, buffer);
-        // target.setImage(buffer);
     }
 }

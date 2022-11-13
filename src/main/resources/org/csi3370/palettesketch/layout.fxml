@@ -33,7 +33,6 @@
 -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -88,7 +87,6 @@
          <center>
             <StackPane fx:id="paletteCanvasContainer" onMouseDragged="#onMouseDraggedCanvas" onMousePressed="#onMouseClickedCanvas" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
-                  <Canvas fx:id="paletteCanvas" height="720.0" width="1280.0" />
                   <ImageView fx:id="paletteCanvasView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true" />
                </children>
                <opaqueInsets>
