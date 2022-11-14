@@ -17,13 +17,17 @@ public class ColorMap {
     // class init block
     static {
         add(java.awt.Color.CYAN);
-        add(java.awt.Color.PINK);
+        add(java.awt.Color.RED);
         selectColor(1);
     }
 
     private static void add(java.awt.Color c) {
         int gsIndex = data.size()+1;
         data.put(new java.awt.Color(gsIndex, gsIndex, gsIndex), c);
+    }
+
+    public static void add() {
+        add(java.awt.Color.black);
     }
 
     public static java.awt.Color get(java.awt.Color c) {

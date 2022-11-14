@@ -25,7 +25,6 @@ public class PSketchController {
         pCanvas = new PaletteCanvasController(paletteCanvasView);
         CanvasTool.setGraphicsReference(pCanvas.getGraphics());
         pList = new PaletteListDisplay(paletteListDisplayContainer);
-
     }
 
     @FXML
