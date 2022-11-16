@@ -1,5 +1,7 @@
 package org.csi3370.palettesketch;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -50,6 +52,8 @@ public class ColorMap {
         return selectedColor;
     }
 
+    public static java.awt.Color getSelectedMappedColor() { return get(selectedColor); }
+
 
     public static void selectColor(java.awt.Color c) {
         if (data.containsKey(c)) {
@@ -61,10 +65,6 @@ public class ColorMap {
 
     public static void selectColor(int i) {
         selectColor(new java.awt.Color(i, i, i));
-    }
-
-    public static boolean isSelected(Color c) {
-        return (c.equals(selectedColor));
     }
 
     public static boolean isSelected(int index) {

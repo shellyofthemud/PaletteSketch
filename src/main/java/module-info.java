@@ -2,6 +2,7 @@ module org.csi3370.palettesketch {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires org.junit.jupiter.api;
 
 
     opens org.csi3370.palettesketch to javafx.fxml;

@@ -24,7 +24,7 @@ public abstract class CanvasTool {
         graphicsReference = g;
     }
 
-    Graphics2D getGraphics() {
+    public static Graphics2D getGraphics() {
         return graphicsReference;
     }
 

@@ -23,7 +23,7 @@ public class PaletteListDisplay {
 
     private final int size = 100;
 
-    private ArrayList<Node> elements;
+    public ArrayList<Node> elements;
 
     private HBox container;
     public PaletteListDisplay(HBox anchor) {
@@ -36,7 +36,7 @@ public class PaletteListDisplay {
         container.getChildren().addAll(createButtonList());
     }
 
-    StackPane createButton(int index) {
+    public StackPane createButton(int index) {
         int size = (int) (container.getPrefHeight()/2);
         Circle c1 = new Circle(size, ColorMap.AWTColorToFXColor(ColorMap.get(index)));
         Circle c2 = new Circle(size, Color.color(1, 1, 1, 0));
@@ -51,7 +51,7 @@ public class PaletteListDisplay {
         return swatchBox;
     }
 
-    StackPane getAddButton() {
+    public StackPane getAddButton() {
         Text t = new Text("+");
         t.setFont(Font.font(36));
         Circle c = new Circle(container.getPrefHeight()/2, Color.color(0, 0, 0, 0));
@@ -64,7 +64,7 @@ public class PaletteListDisplay {
         return sp;
     }
 
-    List<Node> createButtonList() {
+    public List<Node> createButtonList() {
         ArrayList<Node> buttons = new ArrayList<>();
         for (int i=1; i<=ColorMap.size(); i++) {
             buttons.add(createButton(i));
