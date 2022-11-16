@@ -136,9 +136,9 @@
                         <Font size="21.0" />
                      </font>
                   </Text>
-                  <Slider fx:id="sliderRed" max="255.0" maxWidth="1.7976931348623157E308" onMouseDragged="#onMouseDragSlider" prefHeight="23.0" prefWidth="140.0" value="255.0" GridPane.columnIndex="1" />
-                  <Slider fx:id="sliderBlue" max="255.0" maxWidth="1.7976931348623157E308" onMouseDragged="#onMouseDragSlider" prefHeight="23.0" prefWidth="140.0" value="255.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Slider fx:id="sliderGreen" max="255.0" maxWidth="1.7976931348623157E308" onMouseDragged="#onMouseDragSlider" prefHeight="23.0" prefWidth="140.0" value="255.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Slider fx:id="sliderRed" max="255.0" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="140.0" value="255.0" GridPane.columnIndex="1" />
+                  <Slider fx:id="sliderBlue" max="255.0" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="140.0" value="255.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Slider fx:id="sliderGreen" max="255.0" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="140.0" value="255.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="textValRed" alignment="CENTER" prefHeight="25.0" prefWidth="41.0" text="255" GridPane.columnIndex="2" />
                   <TextField fx:id="textValGreen" alignment="CENTER" prefHeight="25.0" prefWidth="41.0" text="255" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="textValBlue" alignment="CENTER" prefHeight="25.0" prefWidth="41.0" text="255" GridPane.columnIndex="2" GridPane.rowIndex="2" />
