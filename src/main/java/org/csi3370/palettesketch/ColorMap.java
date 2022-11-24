@@ -20,6 +20,8 @@ public class ColorMap {
     static {
         add(java.awt.Color.CYAN);
         add(java.awt.Color.RED);
+        //Eraser
+        add(java.awt.Color.WHITE);
         selectColor(1);
     }
 
