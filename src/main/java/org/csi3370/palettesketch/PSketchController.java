@@ -47,6 +47,9 @@ public class PSketchController {
 
     private PaletteListDisplay pList;
 
+
+    private static PSketchController _instance;
+
     // initialize the greyscale canvas BufferedImage
     public void initPCanvas() {
         pCanvas = new PaletteCanvasController(paletteCanvasView);
@@ -58,15 +61,36 @@ public class PSketchController {
         sliderRed.valueProperty().addListener((observable, oldVal, newVal) -> {
             Color newColor = ColorMap.setColorChannel(ColorMap.getSelectedMappedColor(), RED, newVal.intValue());
             ColorMap.setSelectedColor(newColor);
+            pList.update();
+            pCanvas.render();
+            textValRed.setText(String.valueOf(newVal.intValue()));
         });
         sliderGreen.valueProperty().addListener((observable, oldVal, newVal) -> {
             Color newColor = ColorMap.setColorChannel(ColorMap.getSelectedMappedColor(), GREEN, newVal.intValue());
             ColorMap.setSelectedColor(newColor);
+            pList.update();
+            pCanvas.render();
+            textValGreen.setText(String.valueOf(newVal.intValue()));
         });
         sliderBlue.valueProperty().addListener((observable, oldVal, newVal) -> {
             Color newColor = ColorMap.setColorChannel(ColorMap.getSelectedMappedColor(), BLUE, newVal.intValue());
             ColorMap.setSelectedColor(newColor);
+            pList.update();
+            pCanvas.render();
+            textValBlue.setText(String.valueOf(newVal.intValue()));
         });
+        setSliders(ColorMap.getSelectedMappedColor());
+        _instance = this;
+    }
+
+    void setSliders(Color c) {
+        setSliders(c.getRed(), c.getGreen(), c.getBlue());
+    }
+
+    void setSliders(int rVal, int gVal, int bVal) {
+        sliderRed.setValue(rVal);
+        sliderGreen.setValue(gVal);
+        sliderBlue.setValue(bVal);
     }
 
     // handlers for passing mouse events to canvas tools
@@ -84,6 +108,10 @@ public class PSketchController {
     @FXML
     private void onMouseDragReleaseCanvas(MouseEvent e) {
         CanvasTool.getActiveTool().onMouseDragRelease(e);
+    }
+
+    public static PSketchController getInstance() {
+        return _instance;
     }
 
 }

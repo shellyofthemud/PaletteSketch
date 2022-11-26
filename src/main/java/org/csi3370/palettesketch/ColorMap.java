@@ -1,5 +1,7 @@
 package org.csi3370.palettesketch;
 
+import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -10,7 +12,7 @@ public class ColorMap {
     // This is basically a giant color utility class for mapping and converting colors on the canvas
 
     private static HashMap<java.awt.Color, java.awt.Color> data = new HashMap<>();
-    private static java.awt.Color selectedColor;
+    private static java.awt.Color selectedColor = new java.awt.Color(1, 1, 1);
 
     public static enum Channel {
         RED,
@@ -22,9 +24,6 @@ public class ColorMap {
     static {
         add(java.awt.Color.CYAN);
         add(java.awt.Color.RED);
-        //Eraser
-        add(java.awt.Color.WHITE);
-        selectColor(1);
     }
 
     private static void add(java.awt.Color c) {
@@ -58,10 +57,10 @@ public class ColorMap {
 
     public static java.awt.Color getSelectedMappedColor() { return get(selectedColor); }
 
-
     public static void selectColor(java.awt.Color c) {
         if (data.containsKey(c)) {
             selectedColor = c;
+            PSketchController.getInstance().setSliders(get(c));
         } else {
             System.out.printf("Failed to set active color %s\n", c.toString());
         }
