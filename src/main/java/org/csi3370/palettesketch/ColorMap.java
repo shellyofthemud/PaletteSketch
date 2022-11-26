@@ -1,7 +1,5 @@
 package org.csi3370.palettesketch;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -9,12 +7,16 @@ import java.util.HashMap;
 public class ColorMap {
 
     // I'm sorry I think this has to be treated as a 1-indexed list
-
-    // instance data
-    // private static ArrayList<Color> data = new ArrayList<>(Arrays.asList(Color.PINK, Color.RED));
+    // This is basically a giant color utility class for mapping and converting colors on the canvas
 
     private static HashMap<java.awt.Color, java.awt.Color> data = new HashMap<>();
     private static java.awt.Color selectedColor;
+
+    public static enum Channel {
+        RED,
+        GREEN,
+        BLUE
+    }
 
     // class init block
     static {
@@ -79,5 +81,33 @@ public class ColorMap {
 
     public static void remove(int index) {
         data.remove(index-1);
+    }
+
+    public static void set(java.awt.Color index, java.awt.Color value) {
+        data.put(index, value);
+    }
+
+    public static void setSelectedColor(java.awt.Color value) {
+        set(selectedColor, value);
+    }
+
+    public static java.awt.Color setColorChannel(java.awt.Color c, Channel channel, int value) {
+        int r = c.getRed();
+        int g = c.getGreen();
+        int b = c.getBlue();
+
+        switch (channel) {
+            case RED:
+                r = value;
+                break;
+            case GREEN:
+                g = value;
+                break;
+            case BLUE:
+                b = value;
+                break;
+        }
+
+        return new java.awt.Color(r, g, b);
     }
 }

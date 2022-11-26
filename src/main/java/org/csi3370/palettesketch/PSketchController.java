@@ -13,6 +13,10 @@ import javafx.scene.layout.StackPane;
 import org.csi3370.palettesketch.tools.CanvasTool;
 import org.csi3370.palettesketch.ui.PaletteListDisplay;
 
+import java.awt.*;
+
+import static org.csi3370.palettesketch.ColorMap.Channel.*;
+
 public class PSketchController {
 
     @FXML
@@ -43,23 +47,29 @@ public class PSketchController {
 
     private PaletteListDisplay pList;
 
+    // initialize the greyscale canvas BufferedImage
     public void initPCanvas() {
         pCanvas = new PaletteCanvasController(paletteCanvasView);
         CanvasTool.setGraphicsReference(pCanvas.getGraphics());
         pList = new PaletteListDisplay(paletteListDisplayContainer);
 
-       sliderBlue.valueProperty().addListener(new ChangeListener<Number>() {
-           @Override
-           public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
-               // observable.
-           }
-       });
+
+        // adding hooks for slider property changes
+        sliderRed.valueProperty().addListener((observable, oldVal, newVal) -> {
+            Color newColor = ColorMap.setColorChannel(ColorMap.getSelectedMappedColor(), RED, newVal.intValue());
+            ColorMap.setSelectedColor(newColor);
+        });
+        sliderGreen.valueProperty().addListener((observable, oldVal, newVal) -> {
+            Color newColor = ColorMap.setColorChannel(ColorMap.getSelectedMappedColor(), GREEN, newVal.intValue());
+            ColorMap.setSelectedColor(newColor);
+        });
+        sliderBlue.valueProperty().addListener((observable, oldVal, newVal) -> {
+            Color newColor = ColorMap.setColorChannel(ColorMap.getSelectedMappedColor(), BLUE, newVal.intValue());
+            ColorMap.setSelectedColor(newColor);
+        });
     }
 
-    @FXML
-    private void onMouseClickedRoot(MouseEvent e) {
-    }
-
+    // handlers for passing mouse events to canvas tools
     @FXML
     private void onMouseClickedCanvas(MouseEvent e) {
         CanvasTool.getActiveTool().onMouseClick(e);
@@ -75,6 +85,5 @@ public class PSketchController {
     private void onMouseDragReleaseCanvas(MouseEvent e) {
         CanvasTool.getActiveTool().onMouseDragRelease(e);
     }
-
 
 }

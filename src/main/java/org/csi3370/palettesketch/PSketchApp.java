@@ -12,9 +12,9 @@ public class PSketchApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(PSketchApp.class.getResource("layout.fxml"));
         Scene scene = new Scene((Parent) fxmlLoader.load());
         stage.setScene(scene);
+
+        // The palette canvas has to be initialized _after_ the stage is visible
         stage.setOnShowing(e-> ((PSketchController) fxmlLoader.getController()).initPCanvas());
         stage.show();
     }
-
-
 }

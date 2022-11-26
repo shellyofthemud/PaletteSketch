@@ -8,9 +8,13 @@ import java.awt.*;
 
 public abstract class CanvasTool {
 
+    // abstract base class for all tools that modify the canvas
+
     private static CanvasTool activeTool;
 
     static Graphics2D graphicsReference;
+
+    static int strokeWidth;
 
     static {
         activeTool = new PenTool();
@@ -24,12 +28,16 @@ public abstract class CanvasTool {
         graphicsReference = g;
     }
 
-    public static Graphics2D getGraphics() {
+    Graphics2D getGraphics() {
         return graphicsReference;
     }
 
     protected CanvasTool() {
         activeTool = this;
+    }
+
+    float getStrokeWidth() {
+        return strokeWidth;
     }
 
     public abstract void onMouseDrag(MouseEvent e);

@@ -19,16 +19,18 @@ public class PenTool extends CanvasTool {
     }
 
 
+    // anything that interacts with the canvas graphics context must be a CanvasTool
     @Override
     public void onMouseClick(MouseEvent e) {
         lastX = e.getX();
         lastY = e.getY();
     }
 
+    // Get graphics instance from the parent
     @Override
     public void onMouseDrag(MouseEvent e) {
-        Graphics2D g = super.getGraphics();
-        g.setStroke(new BasicStroke(strokeWidth));
+        Graphics2D g = getGraphics();
+        g.setStroke(new BasicStroke(getStrokeWidth()));
         g.setColor(ColorMap.getSelectedColor());
         if (lastX == 0) {
             lastX = e.getX();
