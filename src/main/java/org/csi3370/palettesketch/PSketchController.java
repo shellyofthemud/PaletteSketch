@@ -93,6 +93,10 @@ public class PSketchController {
         sliderBlue.setValue(bVal);
     }
 
+    public static PSketchController getInstance() {
+        return _instance;
+    }
+
     // handlers for passing mouse events to canvas tools
     @FXML
     private void onMouseClickedCanvas(MouseEvent e) {
@@ -110,8 +114,19 @@ public class PSketchController {
         CanvasTool.getActiveTool().onMouseDragRelease(e);
     }
 
-    public static PSketchController getInstance() {
-        return _instance;
+    @FXML
+    private void setPenTool() {
+        CanvasTool.setActiveTool(CanvasTool.Tools.PEN);
+    }
+
+    @FXML
+    private void setEraserTool() {
+        CanvasTool.setActiveTool(CanvasTool.Tools.ERASER);
+    }
+
+    @FXML
+    private void setRectangleTool() {
+        CanvasTool.setActiveTool(CanvasTool.Tools.RECTANGLE);
     }
 
     @FXML

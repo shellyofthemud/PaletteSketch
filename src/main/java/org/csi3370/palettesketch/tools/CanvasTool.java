@@ -16,12 +16,26 @@ public abstract class CanvasTool {
 
     static int strokeWidth;
 
+    public static enum Tools {
+        PEN,
+        RECTANGLE,
+        ERASER
+    }
+
     static {
         activeTool = new PenTool();
     }
 
     public static CanvasTool getActiveTool() {
         return activeTool;
+    }
+
+    public static void setActiveTool(Tools t) {
+        switch (t) {
+            case PEN -> activeTool = new PenTool();
+            case RECTANGLE -> activeTool = new RectangleTool();
+            case ERASER -> activeTool = new EraserTool();
+        }
     }
 
     public static void setGraphicsReference(Graphics2D g) {
