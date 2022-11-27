@@ -114,4 +114,19 @@ public class PSketchController {
         return _instance;
     }
 
+    @FXML
+    public static void ExportGrayScaleImage() {
+
+    }
+
+    @FXML
+    public static void ExportPalette() {
+
+    }
+
+    @FXML
+    public static void ExportRenderedImage() {
+
+    }
+
 }
