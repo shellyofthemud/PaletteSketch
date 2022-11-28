@@ -18,7 +18,6 @@
 - [ ] Export palette
 
 ### UI
-- [ ] Tool picker
+- [x] Tool picker
 - [ ] Brush size changer
 - [ ] Cleanup
-    
