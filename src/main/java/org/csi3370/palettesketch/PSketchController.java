@@ -12,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.csi3370.palettesketch.tools.CanvasTool;
 import org.csi3370.palettesketch.ui.PaletteListDisplay;
+import java.io.File;
+import java.io.IOException;
 
 import java.awt.*;
 
