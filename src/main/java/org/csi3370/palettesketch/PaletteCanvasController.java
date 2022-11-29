@@ -11,6 +11,11 @@ import java.awt.image.BufferedImage;
 
 public class PaletteCanvasController {
 
+    
+    public BufferedImage getpImage() {
+        return pImage;
+    }
+    
     // "canvas" emulation
     private final BufferedImage pImage;
 
