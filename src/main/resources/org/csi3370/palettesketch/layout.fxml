@@ -62,7 +62,7 @@
           <items>
             <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Load Image" />
-                  <MenuItem mnemonicParsing="false" text="Import Palette" />
+                  <MenuItem mnemonicParsing="false" onAction="#LoadColorPalette" text="Import Palette" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#ExportRenderedImage" text="Export Image" />
                   <MenuItem mnemonicParsing="false" onAction="#ExportPalette" text="Export Palette" />

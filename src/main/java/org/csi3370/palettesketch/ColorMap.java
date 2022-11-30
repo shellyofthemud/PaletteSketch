@@ -1,7 +1,5 @@
 package org.csi3370.palettesketch;
 
-import javafx.scene.Scene;
-import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -11,10 +9,10 @@ public class ColorMap {
     // I'm sorry I think this has to be treated as a 1-indexed list
     // This is basically a giant color utility class for mapping and converting colors on the canvas
 
-    private static HashMap<java.awt.Color, java.awt.Color> data = new HashMap<>();
+    private final static HashMap<java.awt.Color, java.awt.Color> data = new HashMap<>();
     private static java.awt.Color selectedColor = new java.awt.Color(1, 1, 1);
 
-    public static enum Channel {
+    public enum Channel {
         RED,
         GREEN,
         BLUE
@@ -22,8 +20,8 @@ public class ColorMap {
 
     // class init block
     static {
-        add(java.awt.Color.CYAN);
         add(java.awt.Color.RED);
+        add(java.awt.Color.CYAN);
     }
 
     private static void add(java.awt.Color c) {
@@ -44,6 +42,10 @@ public class ColorMap {
 
     public static java.awt.Color get(int c) {
         return get(new java.awt.Color(c, c, c));
+    }
+
+    public static void clear() {
+        data.clear();
     }
 
     public static Color AWTColorToFXColor(java.awt.Color c) {

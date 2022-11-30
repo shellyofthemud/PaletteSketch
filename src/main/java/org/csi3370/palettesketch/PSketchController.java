@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import static org.csi3370.palettesketch.ColorMap.Channel.*;
 
@@ -207,5 +209,40 @@ public class PSketchController {
         } catch (Exception e) {
             System.out.printf("Export rendered image failed due to %s\n", e.getStackTrace());
         }
+    }
+
+    @FXML
+    private void LoadColorPalette() {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+        fc.setTitle("Load Color Palette");
+
+        File inFile = fc.showOpenDialog(pCanvas.getPrimaryScene().getWindow());
+
+        JSONParser parser = new JSONParser();
+        JSONObject j;
+        try {
+            j = (JSONObject) parser.parse(new FileReader(inFile));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        ColorMap.clear();
+        j.forEach((k, v) -> {
+            int i = Integer.parseInt((String) k);
+            Color key = new Color(i, i, i);
+            Color value = Color.decode("0x".concat(((String) v).substring(2)));
+            ColorMap.set(key, value);
+        });
+
+        pList.update();
+        pCanvas.render();
+    }
+
+    @FXML
+    private void LoadImage() {
+
     }
 }
