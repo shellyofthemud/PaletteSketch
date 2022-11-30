@@ -11,11 +11,10 @@
 
 ### Menu Buttons
 - [ ] Load image
-- [ ] Load palette
-- [ ] Save project
+- [x] Load palette
 - [x] Export grayscale image
-- [ ] Export rendered image
-- [ ] Export palette
+- [x] Export rendered image
+- [x] Export palette
 
 ### UI
 - [x] Tool picker
