@@ -61,6 +61,18 @@ public abstract class CanvasTool {
         return PSketchController.getInstance().getPaletteCanvasView();
     }
 
+    public static void incrementBrushSize() {
+        strokeWidth++;
+    }
+
+    public static void decrementBrushSize() {
+        strokeWidth--;
+    }
+
+    public static int getBrushSize() {
+        return strokeWidth;
+    }
+
     public abstract void onMouseDrag(MouseEvent e);
 
     public abstract void onMouseClick(MouseEvent e);

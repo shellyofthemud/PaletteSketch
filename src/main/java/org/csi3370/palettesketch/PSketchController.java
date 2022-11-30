@@ -61,6 +61,9 @@ public class PSketchController {
     @FXML
     private Rectangle rectToolPreview;
 
+    @FXML
+    private TextField brushSizeDisplay;
+
     private PaletteCanvasController pCanvas;
 
     private PaletteListDisplay pList;
@@ -98,6 +101,7 @@ public class PSketchController {
             textValBlue.setText(String.valueOf(newVal.intValue()));
         });
         setSliders(ColorMap.getSelectedMappedColor());
+        brushSizeDisplay.setText(String.valueOf(CanvasTool.getBrushSize()));
         _instance = this;
     }
 
@@ -244,5 +248,17 @@ public class PSketchController {
     @FXML
     private void LoadImage() {
 
+    }
+
+    @FXML
+    private void incrementBrushSize() {
+        CanvasTool.incrementBrushSize();
+        brushSizeDisplay.setText(String.valueOf(CanvasTool.getBrushSize()));
+    }
+
+    @FXML
+    private void decrementBrushSize() {
+        CanvasTool.decrementBrushSize();
+        brushSizeDisplay.setText(String.valueOf(CanvasTool.getBrushSize()));
     }
 }
