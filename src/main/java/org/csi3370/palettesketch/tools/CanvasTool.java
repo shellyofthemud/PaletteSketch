@@ -14,7 +14,7 @@ public abstract class CanvasTool {
 
     static Graphics2D graphicsReference;
 
-    static int strokeWidth;
+    static int strokeWidth = 10;
 
     public static enum Tools {
         PEN,
