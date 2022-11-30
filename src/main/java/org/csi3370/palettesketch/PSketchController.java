@@ -6,16 +6,25 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import org.csi3370.palettesketch.tools.CanvasTool;
 import org.csi3370.palettesketch.ui.PaletteListDisplay;
-import java.io.File;
-import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 import java.awt.*;
+import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
 
 import static org.csi3370.palettesketch.ColorMap.Channel.*;
 
@@ -132,40 +141,59 @@ public class PSketchController {
     }
 
     @FXML
-  private void ExportGrayScaleImage() {
-        Robot robot = null;
-
-    try {
-        robot = new Robot ();
-    } catch(AWTException e) {
-            e.printStackTrace();
-        }
-
-
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dim = toolkit.getScreenSize();
-
-        BufferedImage pImage = null;
-        pImage = robot.createScreenCapture(new Rectangle(0, 0, 200, 200));
-
-        File output = new File("./save.png");
+    private void ExportGrayScaleImage() {
         try {
+            BufferedImage pImage = pCanvas.getpImage();
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image file", "*.png"));
+            File output = fc.showSaveDialog(pCanvas.getPrimaryScene().getWindow());
+            fc.setTitle("Choose file location");
             ImageIO.write(pImage, "png", output);
         } catch (IOException e) {
-            e.printStackTrace();
-
+            System.out.printf("failed to export image due to %s\n", e.getStackTrace());
         }
-        }
+    }
 
 
     @FXML
     private void ExportPalette() {
-
+        try {
+            JSONObject j = new JSONObject();
+            for (int i=1; i <= ColorMap.size(); i++) {
+                j.put(i, Integer.toHexString(ColorMap.get(i).hashCode()));
+            }
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+            FileWriter output = new FileWriter(fc.showSaveDialog(pCanvas.getPrimaryScene().getWindow()));
+            output.write(j.toJSONString());
+            output.close();
+        } catch (Exception e) {
+            System.out.printf("export palette failed due to %s\n", e.getStackTrace());
+        }
     }
 
     @FXML
     private void ExportRenderedImage() {
+        try {
+            Image rImage = pCanvas.getRenderedImage();
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image file", "*.png"));
+            PixelReader pReader = rImage.getPixelReader();
+            WritablePixelFormat<ByteBuffer> format = PixelFormat.getByteBgraInstance();
+            byte[] buffer = new byte[((int) rImage.getWidth())*((int) rImage.getHeight())*4];
+            pReader.getPixels(0, 0, (int) rImage.getWidth(), (int) rImage.getHeight(), format, buffer, 0, (int) rImage.getWidth()*4);
 
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fc.showSaveDialog(pCanvas.getPrimaryScene().getWindow())));
+            for (int i=0; i<buffer.length; i += 4) {
+                out.write(buffer[i+2]);
+                out.write(buffer[i+1]);
+                out.write(buffer[i]);
+                out.write(buffer[i+3]);
+            }
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            System.out.printf("Export rendered image failed due to %s\n", e.getStackTrace());
+        }
     }
-
 }

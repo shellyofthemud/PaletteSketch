@@ -1,5 +1,6 @@
 package org.csi3370.palettesketch;
 
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
@@ -31,6 +32,10 @@ public class PaletteCanvasController {
 
     // maps all greyscale values to colors indexed by ColorMap, then returns javafx.scene.image.Image
     void render() {
+        renderTarget.setImage(getRenderedImage());
+    }
+
+    Image getRenderedImage() {
         WritableImage out = new WritableImage(pImage.getWidth(), pImage.getHeight());
         PixelWriter pw = out.getPixelWriter();
         for (int y=0; y<pImage.getHeight(); y++) {
@@ -40,11 +45,15 @@ public class PaletteCanvasController {
                 pw.setArgb(x, y, oc.getRGB());
             }
         }
-        renderTarget.setImage(new ImageView(out).getImage());
+        return new ImageView(out).getImage();
     }
 
     // returns graphics context for palette canvas BufferedImage
     public Graphics2D getGraphics() {
         return pImage.createGraphics();
+    }
+
+    public Scene getPrimaryScene() {
+        return renderTarget.getScene();
     }
 }
