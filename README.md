@@ -2,8 +2,8 @@
 
 ## Remaining tasks
 ### Tools
-- [ ] Rectangle
-- [ ] Eraser
+- [x] Rectangle
+- [x] Eraser
 
 #### Optional tools (more complex)
 - [ ] Select/Snip
@@ -13,7 +13,7 @@
 - [ ] Load image
 - [ ] Load palette
 - [ ] Save project
-- [ ] Export grayscale image
+- [x] Export grayscale image
 - [ ] Export rendered image
 - [ ] Export palette
 
