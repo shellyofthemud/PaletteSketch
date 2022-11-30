@@ -132,9 +132,31 @@ public class PSketchController {
     }
 
     @FXML
-    private void ExportGrayScaleImage() {
+  private void ExportGrayScaleImage() {
+        Robot robot = null;
 
-    }
+    try {
+        robot = new Robot ();
+    } catch(AWTException e) {
+            e.printStackTrace();
+        }
+
+
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension dim = toolkit.getScreenSize();
+
+        BufferedImage pImage = null;
+        pImage = robot.createScreenCapture(new Rectangle(0, 0, 200, 200));
+
+        File output = new File("./save.png");
+        try {
+            ImageIO.write(pImage, "png", output);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        }
+
 
     @FXML
     private void ExportPalette() {
