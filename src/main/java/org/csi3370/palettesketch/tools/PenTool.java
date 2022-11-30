@@ -8,8 +8,6 @@ import java.awt.*;
 
 public class PenTool extends CanvasTool {
 
-    private int strokeWidth = 5;
-
     private double lastX;
 
     private double lastY;
@@ -30,6 +28,7 @@ public class PenTool extends CanvasTool {
     @Override
     public void onMouseDrag(MouseEvent e) {
         Graphics2D g = getGraphics();
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
         g.setStroke(new BasicStroke(getStrokeWidth()));
         g.setColor(ColorMap.getSelectedColor());
         if (lastX == 0) {
