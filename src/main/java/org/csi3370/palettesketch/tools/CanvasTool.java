@@ -2,7 +2,10 @@ package org.csi3370.palettesketch.tools;
 
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import org.csi3370.palettesketch.PSketchController;
+import org.csi3370.palettesketch.PaletteCanvasController;
 
 import java.awt.*;
 
@@ -54,10 +57,15 @@ public abstract class CanvasTool {
         return strokeWidth;
     }
 
+    ImageView getCanvasNode() {
+        return PSketchController.getInstance().getPaletteCanvasView();
+    }
+
     public abstract void onMouseDrag(MouseEvent e);
 
     public abstract void onMouseClick(MouseEvent e);
 
     public abstract void onMouseDragRelease(MouseEvent e);
+
 
 }

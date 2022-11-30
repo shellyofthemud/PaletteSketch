@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import org.csi3370.palettesketch.tools.CanvasTool;
 import org.csi3370.palettesketch.ui.PaletteListDisplay;
@@ -21,6 +22,7 @@ import java.io.*;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +55,9 @@ public class PSketchController {
 
     @FXML
     private TextField textValBlue;
+
+    @FXML
+    private Rectangle rectToolPreview;
 
     private PaletteCanvasController pCanvas;
 
@@ -108,10 +113,15 @@ public class PSketchController {
         return _instance;
     }
 
+    public ImageView getPaletteCanvasView() {
+        return paletteCanvasView;
+    }
+
     // handlers for passing mouse events to canvas tools
     @FXML
     private void onMouseClickedCanvas(MouseEvent e) {
         CanvasTool.getActiveTool().onMouseClick(e);
+        pCanvas.render();
     }
 
     @FXML
@@ -123,6 +133,7 @@ public class PSketchController {
     @FXML
     private void onMouseDragReleaseCanvas(MouseEvent e) {
         CanvasTool.getActiveTool().onMouseDragRelease(e);
+        pCanvas.render();
     }
 
     @FXML
@@ -177,21 +188,22 @@ public class PSketchController {
         try {
             Image rImage = pCanvas.getRenderedImage();
             FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image file", "*.png"));
-            PixelReader pReader = rImage.getPixelReader();
-            WritablePixelFormat<ByteBuffer> format = PixelFormat.getByteBgraInstance();
-            byte[] buffer = new byte[((int) rImage.getWidth())*((int) rImage.getHeight())*4];
-            pReader.getPixels(0, 0, (int) rImage.getWidth(), (int) rImage.getHeight(), format, buffer, 0, (int) rImage.getWidth()*4);
+            int width = (int) rImage.getWidth();
+            int height = (int) rImage.getHeight();
 
-            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fc.showSaveDialog(pCanvas.getPrimaryScene().getWindow())));
-            for (int i=0; i<buffer.length; i += 4) {
-                out.write(buffer[i+2]);
-                out.write(buffer[i+1]);
-                out.write(buffer[i]);
-                out.write(buffer[i+3]);
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image file", "*.png"));
+            BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+            for (int y=0; y<height; y++) {
+                for (int x=0; x<width; x++) {
+                    var pixel = rImage.getPixelReader().getArgb(x, y);
+
+                    output.setRGB(x, y, pixel);
+                }
             }
-            out.flush();
-            out.close();
+
+            File outFile = fc.showSaveDialog(pCanvas.getPrimaryScene().getWindow());
+            ImageIO.write(output, "png", outFile);
         } catch (Exception e) {
             System.out.printf("Export rendered image failed due to %s\n", e.getStackTrace());
         }
